@@ -60,15 +60,21 @@ $ mosquitto_pub -h localhost -t test -m "hello world" -u "username" -P "secret_p
 
 
 $ sudo vi /etc/mosquitto/conf.d/default.conf
+
 listener 1883 localhost
 
 listener 8883
+
 certfile /etc/letsencrypt/live/example.domian_name.in/cert.pem
+
 cafile /etc/letsencrypt/live/example.domian_name.in/chain.pem
+
 keyfile /etc/letsencrypt/live/example.domian_name.in/privkey.pem
 
 $ sudo systemctl restart mosquitto
+
 $ sudo ufw allow 8883
+
 $ sudo ufw enable
 
 $ sudo cat /etc/letsencrypt/live/example.domian_name.in/cert.pem
@@ -76,37 +82,56 @@ $ sudo cat /etc/letsencrypt/live/example.domian_name.in/cert.pem
 ============== PUBLISH MESSAGE FROM mqtt.fx/Paho Library =====================
 
 Broker Address: example.domian_name.in
+
 Broker Port: 8883
+
 Client ID: test
+
 Username: username
+
 Password: secret_password
+
 TLS/SSL: tls1.2
+
 CA Cert File: .../cert.pem
+
 
 ============== PUBLISH/SUBSCRIBE FROM TERMINAL =====================
 
 Run on EC2
+
 ----------
+
 $ mosquitto_pub -h example.domian_name.in -p 8883 --tls-version tlsv1.2 -i "test" --capath /etc/ssl/certs/ -t "test" -m "hello world" -u "thesuavedeveloper" -P "secret_password" -d
 
 $ mosquitto_sub -h example.domian_name.in --capath /etc/ssl/certs/ -t test -u "thesuavedeveloper" -P "secret_password"
 
 Run on Mac - You can stop if you want. 
+
 ----------
 
 1. Copy certs files from ec2 and download
+
 $ cd 
+
 $ mkdir certs 
+
 $ cd /etc/ssl/certs/ 
+
 $ cp -r . /home/ubuntu/certs
+
 $ cd 
+
 $ zip -r certs.zip certs/
 
 2. After Downlaoding zip to mac and unzipping.
+
 $ cd certs
+
 $ sudo cp -r . /etc/ssl/certs
 
 3. Run the same command
+
 $ mosquitto_pub -h example.domian_name.in -p 8883 --tls-version tlsv1.2 -i "test" --capath /etc/ssl/certs/ -t "test" -m "hello world" -u "username" -P "secret_password" -d
 
 $ mosquitto_sub -h example.domian_name.in --capath /etc/ssl/certs/ -t test -u "username" -P "secret_password"
