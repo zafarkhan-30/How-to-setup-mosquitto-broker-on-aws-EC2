@@ -3,6 +3,7 @@
 ============== Create Ubuntu Ec2 =====================
 
 Create from Ec2, choose latest version of Ubuntu available
+
 Open ports in SG: 22, 80, 443, 8883, 1883
 
 ============== Configure DNS =====================
@@ -12,34 +13,49 @@ Point the domain example.domian_name.in to IP of Ec2
 ============== Install and Configure Mosquitto on Ec2 =====================
 
 $ sudo apt-get update
+
 $ sudo apt-get install mosquitto mosquitto-clients -y
+
 $ mosquitto_sub -h localhost -t test
+
 $ sudo ufw allow 1883 
+
 $ sudo ufw allow 22
+
 $ sudo ufw enable
 
 $ sudo systemctl restart mosquitto
 
 $ sudo add-apt-repository ppa:certbot/certbot
+
 $ sudo apt-get update
+
 $ sudo apt-get install certbot -y
+
 $ sudo ufw allow http
+
 $ sudo ufw enable
+
 
 $ sudo certbot certonly --standalone --preferred-challenges http-01 -d example.domian_name.in
 
 
 $ sudo crontab -e
+
 15 3 * * * certbot renew --noninteractive --post-hook "systemctl restart mosquitto"
 
 $ sudo mosquitto_passwd -c /etc/mosquitto/passwd username
+
 $ sudo vi /etc/mosquitto/conf.d/default.conf
+
 allow_anonymous false
+
 password_file /etc/mosquitto/passwd
 
 $ sudo systemctl restart mosquitto
 
 $ mosquitto_sub -h localhost -t test -u "username" -P "secret_password"
+
 $ mosquitto_pub -h localhost -t test -m "hello world" -u "username" -P "secret_password"
 
 
