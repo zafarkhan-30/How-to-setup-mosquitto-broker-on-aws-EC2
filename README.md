@@ -102,9 +102,9 @@ Run on EC2
 
 ----------
 
-$ mosquitto_pub -h example.domian_name.in -p 8883 --tls-version tlsv1.2 -i "test" --capath /etc/ssl/certs/ -t "test" -m "hello world" -u "thesuavedeveloper" -P "secret_password" -d
+$ mosquitto_pub -h example.domian_name.in -p 8883 --tls-version tlsv1.2 -i "test" --capath /etc/ssl/certs/ -t "test" -m "hello world" -u "username" -P "secret_password" -d
 
-$ mosquitto_sub -h example.domian_name.in --capath /etc/ssl/certs/ -t test -u "thesuavedeveloper" -P "secret_password"
+$ mosquitto_sub -h example.domian_name.in --capath /etc/ssl/certs/ -t test -u "username" -P "secret_password"
 
 Run on Mac - You can stop if you want. 
 
